@@ -1,3 +1,5 @@
+#GRIPPER
+
 def gripper_example():
   CONTROL_BOX_IP = "localhost"
 
@@ -32,10 +34,37 @@ end
 
 # selve bevægelsessekvensen (lukker gripper, åbner gripper 50 mm, lukker gripper igen)
 
+# BEVÆGLESE MELLEM 2 KOORDINATER
+
+def f():
+  # Startpunktet: X_ORIGIN and Y_ORIGIN, Z.
+  X_ORIGIN = 0
+  Y_ORIGIN = -.4
+  Z = .2
+# Værktøjets orientering
+  RX = 0
+  RY = d2r(180)
+  RZ = 0
+
+  # Afstand mellem 2 punkter (Hver enhed i x eller y svarer til 10 cm)
+  SEP = 0.1
+
+  # Kernen - regner koordinter til 3D, bevæger med movej
+  def move(x, y):
+    movej(get_inverse_kin(p[X_ORIGIN + SEP * x, Y_ORIGIN + SEP * y, Z, RX, RY, RZ]))
+  end
+
+# bevægelsesfrekvens mellem punkter
+  move(1, 1)
+  move(3, 3)
+  move(4, 1)
+  move(2, 3)
+end
 
 
 
 
+#ANDET
 
 using System;
 using System.IO;
