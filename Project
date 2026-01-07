@@ -1,3 +1,42 @@
+def gripper_example():
+  CONTROL_BOX_IP = "localhost"
+
+  global RPC = rpc_factory("xmlrpc", "http://" + CONTROL_BOX_IP_IP + ":41414")
+  # Opretter forbindelse til gripper
+
+  global TOOL_INDEX = 0
+  # Valg af gripper
+
+  def rg_is_busy():
+    return RPC.rg_get_busy(TOOL_INDEX)
+  end
+# Tjek om gripper er i bevægelse - retunerer true hvis gripper stadig bevæger sig.
+# Bruges til at vente, indtil en bevægelse er færdig
+
+  def rg_grip(width, force = 20):
+    RPC.rg_grip(TOOL_INDEX, width + .0, force + .0)
+  # width: hvor meget gripperen åbnes/lukkes
+  # force: hvor hårdt den griber
+  # (If force is too low, the gripper may not move)
+
+    sleep(0.01)
+    while (rg_is_busy()):
+    end
+  end
+# Lille pause - while-loop venter, indtil griberen ikke længere er busy
+
+  rg_grip(0)
+  rg_grip(50)
+  rg_grip(0)
+end
+
+# selve bevægelsessekvensen (lukker gripper, åbner gripper 50 mm, lukker gripper igen)
+
+
+
+
+
+
 using System;
 using System.IO;
 using System.Net.Sockets;
