@@ -45,16 +45,17 @@ using System.Threading.Tasks;
 
 namespace InventorySystem;
 
+# IP adresse på robotten
 public class Robot(string ipAddress = "localhost", int dashboardPort = 29999, int urscriptPort = 30002)
 {
-    private readonly TcpClient _clientDashboard = new();
-    private readonly TcpClient _clientUrscript = new();
+    private readonly TcpClient _clientDashboard = new(); # Dashboard kommandoer
+    private readonly TcpClient _clientUrscript = new(); # robotprogrammer (URScript)
     private Stream _streamDashboard;
     private StreamReader _streamReaderDashboard;
     private Stream _streamUrscript;
     public string IpAddress = ipAddress;
 
-    public bool ProgramRunning
+    public bool ProgramRunning # Returnerer true kun hvis begge forbindelser er aktive
     {
         get
         {
@@ -70,7 +71,9 @@ public class Robot(string ipAddress = "localhost", int dashboardPort = 29999, in
 
     public bool Connected => _clientDashboard.Connected && _clientUrscript.Connected;
 
-    public string RobotMode
+    public string RobotMode # Spørger robotten om on/off eller lign.
+# Bruges til at vente på korrekt tilstand før næste trin.
+
     {
         get
         {
@@ -79,7 +82,7 @@ public class Robot(string ipAddress = "localhost", int dashboardPort = 29999, in
         }
     }
 
-    public void Connect()
+    public void Connect() #Opretter TCP-forbindelse til dashboard, læser welcome besked, forbinder til URScript-port
     {
         _clientDashboard.Connect(IpAddress, dashboardPort);
         _streamDashboard = _clientDashboard.GetStream();
@@ -93,14 +96,14 @@ public class Robot(string ipAddress = "localhost", int dashboardPort = 29999, in
     }
 
 
-    public async void PowerOn()
+    public async void PowerOn() # asynkront kontrol-loop
     {
         SendDashboard("power on\n");
         ReadLineDashboard(); // Consume
         while (RobotMode != "Robotmode: IDLE") await Task.Delay(1000);
     }
 
-    public async void BrakeRelease()
+    public async void BrakeRelease() # NU må robot bevæge sig
     {
         SendDashboard("brake release\n");
         ReadLineDashboard(); // Consume
@@ -120,12 +123,12 @@ public class Robot(string ipAddress = "localhost", int dashboardPort = 29999, in
         _streamDashboard.Write(Encoding.ASCII.GetBytes(command));
     }
 
-    public void SendUrscript(string program)
+    public void SendUrscript(string program) # Sender rå URScript-kode direkte til robotten (gripper, bevægelse)
     {
         _streamUrscript.Write(Encoding.ASCII.GetBytes(program));
     }
 
-    public void SendUrscriptFile(string path)
+    public void SendUrscriptFile(string path) # Læser en .script-fil, sender den til robotten
     {
         var program = File.ReadAllText(path) + Environment.NewLine;
         SendUrscript(program);
