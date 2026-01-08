@@ -13,27 +13,7 @@ def f():
   p5 = p[.027, -.482, .044, 2.508, -1.984, -.015]
   p9 = p[ 0.027, -0.482, -.125, 2.508, -1.984, -.015]
 
-  times = 0
-  while (times < 1):
-    movej(get_inverse_kin(p1))
-    movej(get_inverse_kin(p2))
-    movej(get_inverse_kin(p6))
-    movej(get_inverse_kin(p3))
-    movej(get_inverse_kin(p7))
-    movej(get_inverse_kin(p4))
-    movej(get_inverse_kin(p8))
-    movej(get_inverse_kin(p5))
-    movej(get_inverse_kin(p9))
-    times = times + 1
-  end
-end
-";
-
-const string CONTROL_BOX_IP = "localhost";
-
-string gripper = $@"
-def gripper_example():
-  global RPC = rpc_factory(""xmlrpc"", ""http://{CONTROL_BOX_IP}:41414"")
+  global RPC = rpc_factory(""xmlrpc"", ""http://172.20.254.203:41414"")
   global TOOL_INDEX = 0
 
   def rg_is_busy():
@@ -48,15 +28,40 @@ def gripper_example():
     end
   end
 
-  # Sekvens: luk -> åbn 50mm -> luk
-  rg_grip(0)
-  rg_grip(50)
-  rg_grip(0)
+  times = 0
+  while (times < 1):
+    movej(get_inverse_kin(p1))
+    movej(get_inverse_kin(p2))
+    movej(get_inverse_kin(p6))
+
+    # Komponent A
+    rg_grip(50)
+    rg_grip(32)
+
+    movej(get_inverse_kin(p2))
+    movej(get_inverse_kin(p3))
+    movej(get_inverse_kin(p7))
+
+    # Komponent B
+    rg_grip(50)
+    rg_grip(11)
+
+    movej(get_inverse_kin(p3))
+    movej(get_inverse_kin(p4))
+    movej(get_inverse_kin(p8))
+
+    # Komponent C
+    rg_grip(50)
+    rg_grip(32)
+
+    movej(get_inverse_kin(p4))
+    movej(get_inverse_kin(p5))
+    movej(get_inverse_kin(p9))
+
+    times = times + 1
+  end
 end
-
 ";
-
-string combined = program + gripper;
 
 const int urscriptPort = 30002, dashboardPort = 29999;
 const string IpAddress = "172.20.254.203";
