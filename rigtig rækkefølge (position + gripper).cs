@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Text;
 
 const string program = @"
@@ -11,7 +11,7 @@ def f():
   p4 = p[.292, -.385, .044, 2.972, -1.166, -.041]
   p8 = p[ 0.292, -0.385, -.125, 2.972, -1.166, -0.041]
   p5 = p[.027, -.482, .044, 2.508, -1.984, -.015]
-  p9 = p[ 0.027, -0.482, -.125, 2.508, -1.984, -.015]
+  p9 = p[ 0.027, -0.482, -.05, 2.508, -1.984, -.015]
 
   global RPC = rpc_factory(""xmlrpc"", ""http://172.20.254.203:41414"")
   global TOOL_INDEX = 0
@@ -36,53 +36,53 @@ def f():
 
     # === Komponent A ===
     movej(get_inverse_kin(p2))   # komponent (høj)
-    movej(get_inverse_kin(p6))   # ned (lav)
+    movel(get_inverse_kin(p6))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben)
     rg_grip(32)                  # gripper (luk)
 
-    movej(get_inverse_kin(p2))   # op (høj)
+    movel(get_inverse_kin(p2))   # op (høj)
 
     movej(get_inverse_kin(p5))   # pakke (høj)
-    movej(get_inverse_kin(p9))   # ned (lav)
+    movel(get_inverse_kin(p9))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben / slip)
 
-    movej(get_inverse_kin(p5))   # op (høj)
+    movel(get_inverse_kin(p5))   # op (høj)
     movej(get_inverse_kin(p1))   # start
 
     # === Komponent B ===
     movej(get_inverse_kin(p3))   # komponent (høj)
-    movej(get_inverse_kin(p7))   # ned (lav)
+    movel(get_inverse_kin(p7))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben)
     rg_grip(11)                  # gripper (luk)
 
-    movej(get_inverse_kin(p3))   # op (høj)
+    movel(get_inverse_kin(p3))   # op (høj)
 
     movej(get_inverse_kin(p5))   # pakke (høj)
-    movej(get_inverse_kin(p9))   # ned (lav)
+    movel(get_inverse_kin(p9))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben / slip)
 
-    movej(get_inverse_kin(p5))   # op (høj)
+    movel(get_inverse_kin(p5))   # op (høj)
     movej(get_inverse_kin(p1))   # start
 
     # === Komponent C ===
     movej(get_inverse_kin(p4))   # komponent (høj)
-    movej(get_inverse_kin(p8))   # ned (lav)
+    movel(get_inverse_kin(p8))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben)
     rg_grip(32)                  # gripper (luk)
 
-    movej(get_inverse_kin(p4))   # op (høj)
+    movel(get_inverse_kin(p4))   # op (høj)
 
     movej(get_inverse_kin(p5))   # pakke (høj)
-    movej(get_inverse_kin(p9))   # ned (lav)
+    movel(get_inverse_kin(p9))   # ned (lav)
 
     rg_grip(50)                  # gripper (åben / slip)
 
-    movej(get_inverse_kin(p5))   # op (høj)
+    movel(get_inverse_kin(p5))   # op (høj)
     movej(get_inverse_kin(p1))   # start
 
     times = times + 1
