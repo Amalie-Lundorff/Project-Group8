@@ -75,13 +75,13 @@ def f():
   end
 
 times = 0
-  while (times < 1):
+while (times < 1):
   # HER vælger man hvilke komponenter man vil køre
   run_by_name(""A"")
   run_by_name(""C"")
   run_by_name(""A"")
-times = times + 1
-  end
+  times = times + 1
+end
 
 end
 
